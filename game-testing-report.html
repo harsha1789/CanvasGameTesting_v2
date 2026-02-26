@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamePulse - Game Testing Report</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #121220; color: #e0e0e0; margin: 0; padding: 20px; }
+    @media print {
+      body { background: #fff; color: #222; padding: 10px; }
+      .summary-card { background: #f5f5f5 !important; border-color: #ddd !important; }
+      .summary-card .label { color: #666 !important; }
+      .summary-card .value { color: #222 !important; }
+      div[style*="background:#1e1e2e"] { background: #f9f9f9 !important; border-color: #ddd !important; }
+      table tr[style*="background:#2a2a3e"] { background: #eee !important; }
+      th, td { color: #333 !important; border-color: #ddd !important; }
+      h3, h4 { color: #222 !important; }
+      span[style*="color:#aaa"], span[style*="color:#888"] { color: #666 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div style="max-width:1100px;margin:0 auto;">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:30px;padding:20px;border-bottom:2px solid #333;">
+      <h1 style="margin:0;font-size:28px;color:#00d4ff;">GamePulse</h1>
+      <p style="margin:4px 0 0 0;font-size:14px;color:#888;">Game Testing Report</p>
+      <p style="margin:8px 0 0 0;font-size:12px;color:#666;">26 February 2026 | Session: pt-1772085742967-d1nobn | Duration: 2m 51s</p>
+    </div>
+
+    <!-- Summary -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;">
+      <div class="summary-card" style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;text-align:center;">
+        <div class="label" style="font-size:11px;color:#888;margin-bottom:4px;">Games Tested</div>
+        <div class="value" style="font-size:28px;font-weight:700;color:#00d4ff;">18</div>
+      </div>
+      <div class="summary-card" style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;text-align:center;">
+        <div class="label" style="font-size:11px;color:#888;margin-bottom:4px;">Passed</div>
+        <div class="value" style="font-size:28px;font-weight:700;color:#10b981;">0</div>
+      </div>
+      <div class="summary-card" style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;text-align:center;">
+        <div class="label" style="font-size:11px;color:#888;margin-bottom:4px;">Failed</div>
+        <div class="value" style="font-size:28px;font-weight:700;color:#ef4444;">18</div>
+      </div>
+      <div class="summary-card" style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;text-align:center;">
+        <div class="label" style="font-size:11px;color:#888;margin-bottom:4px;">Pass Rate</div>
+        <div class="value" style="font-size:28px;font-weight:700;color:#ef4444;">0.0%</div>
+      </div>
+      <div class="summary-card" style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;text-align:center;">
+        <div class="label" style="font-size:11px;color:#888;margin-bottom:4px;">Steps Passed</div>
+        <div class="value" style="font-size:28px;font-weight:700;color:#00d4ff;">4/4</div>
+      </div>
+    </div>
+
+    <!-- What Was Tested -->
+    <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;margin-bottom:24px;">
+      <h3 style="margin:0 0 8px 0;font-size:14px;color:#aaa;">Test Scenarios (per game)</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tbody>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 1:</strong> Lobby Navigation</td><td style="padding:4px 10px;color:#888;font-size:12px;">Navigate to game category lobby, verify page loads</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 2:</strong> Play Button Click</td><td style="padding:4px 10px;color:#888;font-size:12px;">Find and click Play button, verify game opens</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 3:</strong> Game Element Loaded</td><td style="padding:4px 10px;color:#888;font-size:12px;">Verify game iframe/canvas loads within timeout</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 4:</strong> Continue/Accept</td><td style="padding:4px 10px;color:#888;font-size:12px;">Handle any Continue/Accept overlays, verify screen changes</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 5:</strong> Credits/Balance</td><td style="padding:4px 10px;color:#888;font-size:12px;">Verify credits or balance indicator is visible</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 6:</strong> Spin</td><td style="padding:4px 10px;color:#888;font-size:12px;">Click spin button and verify gameplay response</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 7:</strong> Min Bet</td><td style="padding:4px 10px;color:#888;font-size:12px;">Decrease bet to minimum, verify state change via screenshot diff</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 8:</strong> Max Bet</td><td style="padding:4px 10px;color:#888;font-size:12px;">Click max bet button, verify state change via screenshot diff</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 9:</strong> Bet Reset</td><td style="padding:4px 10px;color:#888;font-size:12px;">Decrease bet from max for safe gameplay balance</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 10:</strong> Paytable/Info</td><td style="padding:4px 10px;color:#888;font-size:12px;">Open info/paytable panel and verify panel state change</td></tr>
+          <tr><td style="padding:4px 10px;color:#e0e0e0;font-size:13px;"><strong>Step 11:</strong> Auto-Spin</td><td style="padding:4px 10px;color:#888;font-size:12px;">Template match auto-spin icon, click it, and verify state change via image diff</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Per-game results -->
+    <h2 style="font-size:18px;color:#e0e0e0;margin-bottom:12px;">Detailed Results</h2>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Hot Hot Betway</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Gonzo's Quest Megaways</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+        <tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+            <span style="background:#10b981;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">PASS</span>
+          </td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#aaa;">https://www.betway.co.za/lobby/casino-games/slots</td>
+        </tr>
+      
+        <tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+            <span style="background:#10b981;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">PASS</span>
+          </td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#aaa;">URL changed: true, screen diff: 99.6%</td>
+        </tr>
+      
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Starburst</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+        <tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+            <span style="background:#10b981;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">PASS</span>
+          </td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#aaa;">https://www.betway.co.za/lobby/casino-games/slots</td>
+        </tr>
+      
+        <tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+            <span style="background:#10b981;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">PASS</span>
+          </td>
+          <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#aaa;">URL changed: true, screen diff: 99.5%</td>
+        </tr>
+      
+          </tbody>
+        </table>
+
+        
+          <div style="margin-top:12px;">
+            <h4 style="margin:0 0 8px 0;font-size:13px;color:#aaa;">Screenshot Evidence</h4>
+            <div style="overflow-x:auto;">
+              
+          <div style="display:inline-block;margin:6px;text-align:center;vertical-align:top;">
+            <div style="font-size:11px;color:#aaa;margin-bottom:4px;">Step 1: Lobby Navigation
+              <span style="background:#10b981;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;margin-left:4px;">PASS</span>
+            </div>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABVYAAAMACAIAAABAXKuVAAAQAElEQVR4nOzdCZBdZZ3w4XN7SafT2fdAhiE0gSSQLzEsGQSUNSwBp2BGdBioUVEEN7RwiUtZaqmoQco9oVRAEQtkSyJEIIvsgYRgSQgxmABhCyQh+9Jbur9jX23bTt9zu5M4k+7/89RU1+1z35N0bk+VvL/3nPeUVVdXJwAAAEB3V5YAAAAAAUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAAAAEIIEAAAAACFIAAAAABCCBAAAAAAhSAAAAAAQggQAAAAAIUgAAHQfK1euLC0tzRgwbdq0O+64IwEACEkCAAAAgBAkAAAAAAhBAgCg+8i+CyDV1NSUdB2TJ0/OHvDiiy+uW7cu/3rgwIGjR4/OGPzWW2+tWrUqAQACkwAA4AB1yy23ZA/48pe//Otf/zr/uqysLHv8G2+8cdJJJyUAQGAlCQDQ9a1bt+6BBx7IGDB8+PDjjz8+AQACkwAA6D52796dPSCXyyXd1+zZs7MHnHfeeQkAEJgEAADdxIIFC3bu3Jkx4Nxzz+3eEQQAyCYBANB9dLPtADuroaHhnnvuyRjQv3//Y489NgEAopIAAOg+gt8IkJo1a1b2gClTpiQAQFSeCABA99GpqwAOPvjgQYMGVVZW1tTUvPXWW5s2bdqxY0ey/xx00EHpqnuvXr02b968ZcuW9evXJ/98ixcvXrt27YgRIwoNOPPMM7/xjW8kB5j0g+rXr1/fvn3Tj2vXrl2bmm3fvj0BAPYrCQCAQMaPH3/kkUeefPLJo0eP3vPd1atX33TTTXfffXcaBZK9MmnSpNNOOy2dZldXV+/57lNPPTV79uy5c+emRaDd0yc3Szrs1FNPHTx4cMu36U/+yiuvpH/FFVdcUeiUkSNHjh07dsWKFYUGTJw48R3veMeex3/wgx8UOiX9VN/+9rdXVFQUGrB169b0g21zsHfv3lOmTJk6deo73/nOds9K00n6WS1cuPDBBx9s89YnPvGJpID6+vqNGzdua/bII48kxWT8US0y/u0A0LXk2v1vFADoilatWpXssx07dvy0WW1tbcfPOuuss66++urDDjusI4PTme13vvOdV199tc3xTzRL9tbMmTOvvfbatG787ne/yxj2k5/85Lrrriv07r333ptWkj2PX3TRRU8//XS7p8yfP//QQw9NClu5cmU61W/5dtSoUZ/61KfOPffcpGPSFvDjH//4xhtvbDlywQUXTJ8+Pfus9OM95ZRTsscMHDhw8eLF2WOyPy4A6FrsBQAA/6CqquqTn/xkOq1NF/M7Mj5dVJ81a1Y6R+3g/D9p3pk/Xdn++Mc/nuxX559/fvr1z3/+czrlzhh2zjnnFHpr8ODB7c7/UyeddFK7x0eOHJk9/0/dcsst+RdDhw695ppr5s2b1/H5f9J8m8AXv/jFxx577JhjjskfSRvHK6+8kn1W+oOlXSZ7TMZH0SJ7h0UA6FokAABox4gRI2bMmFF0DnnGGWf85je/Ofroo5POu+qqq/bvbfkHH3zwpEmT0he//e1vM4ali/BHHHFEu2+deOKJhc467bTT2j1e6DL+1vKbFP7nf/7n/fff/+53vzvZK8OGDbvtttsuuuii9HVNTc29995b9JSO/PqyB8ydO/f5559PAKC7kAAAoKDrrrtu4sSJhd79wAc+MHPmzMrKymRvvec97/nWt76V7D/vete7kmIJIHX22We3ezzjyvk0cwwZMmTP4+1uHNBaOoveuXPn1Vdfnf5L+/Tpk+ybb37zm0cddVTSfMNC0cFpAhg5cmShd0ePHn3yyScnmdIfPgGAbkQCAICCKioqrr/++nYnruns8Qtf+EKyz9K18SuvvDLZT/JXtr/22mtLly7NGNb6zvzWCi3157W74F/oBoEWc+bMSb/ecMMNe+59sHeuueaa9OuKFSvuu+++7JHpry9jnT/7H5v605/+VPSvAICuRQIAgCyDBg3ac4u+ESNGfO9730v2k3SFvNCV+Z2V/rT/9m//lr6YPXt2xrDqZm0OHnfccVVVVRln7XmNwAknnJDxIICkeW/F+fPnpy82bdr0P//zP5s3b0722bhx4/LbNNx1111FB5966ql78VaeSwAA6H4kAAAo4v3vf/+oUaNaH/nsZz/br1+/7LN++ctfTpo06fDDD//3f//3+++/P3vwvjwIoI38Rf5Fr5OfMmVKmyNF7+rfc8G/6CUArX+MNWvWFLreIV3SX9ys0OMS28j/Gxc2yx554okntrvB4YQJE4499tiME+vq6jpyrwEAdC1lCQCEsXLlyscff3zVqlWvv/760KFDR44cmS5N9+3bt+iJaQX48pe/nH89bNiw/N77Gb761a/efPPN+dfLly//6Ec/+pnPfObDH/5wofHpnDatDE8++WTrR9AX7QK///3vly1b1ubgW2+9lX5N59LpuxkL3WkCmDFjRusjRRNA7969J0+enP6QLUeK3kvfZleCJUuWTJs2rWX7g82bN//qV7/6xS9+sWnTppYxVzRL/66MP7blR7311luLXs+ffgh7PiKh6PMC586dmzaLBAC6FwkAgEDSlfnbbrut9ZF0CppO1wttj9di6tSpLQng0ksvzR581VVX7bmAPH369GOOOSZj5TnNCun8v/UEuyMJ4Ne//nWhd9NJbEYCGD9+/PDhw9944438t2kQGTt2bFJMOnNu+QmHDBkybty4jMEbNmxYtGhRm4N33HHH6NGjL7vssnT2fs011+zYsaPNgJkzZ65fv/7b3/52xp/cv3//9G9Phy1cuPCJJ57I3/tQSPohpH9mssc/JMnkLgAArgQbaAAAEABJREFUuiU3AgAQWrpm/rGPfezBBx/MHtavX7/TTz89//q8887LGDlv3rxCF5D/6Ec/yjgxf3/7fvTAAw9kD8jvHZjXkWf7Jf+4/3/RuwAKPZggnfmfccYZX/rSl/ac/+d1ZPo9bNiw/Iuil+un5WXChAltjqQFJOOUZ555pugtBgDQFUkAAATS1NTU7vHsNee8E044IWmeeWY8Zy710ksvFXrr0UcframpKfRuugg/YMCAZP9JJ9gLFizIGHDWWWe1vO5gAjjyyCOHDh2af130cYAZzybM+JRSu3btSoppuVMgTQAt1zIU0mbNv+glAEWfqggAXZQbAQAg+fOf/5zO+rLv8D/88MPTr9nXnKfGjBmTcQH/9u3be/bsWejd448/vujGgZ1y8803t1y8sKdjjz02nc+vW7cu6cCSfos0Ftx+++1JsY0AXn755XQtPemAiRMnpmFlQLOBAwemX/v371/0rNLS0vyLrVu3phXgsssuyxiczvm///3vt/42Y/CGDRvyDzIEgO5HAgCAv3jqqaeyE0B+9Xv06NFJppObJXulzXMH9t2jjz66fv36IUOGFBpw7rnn3nTTTen8P3v7vdbyCeDoo4/OnqjPmjUr490JEyakbeK4Zsk+u+eee7ITwPjx49/2trf94Q9/yL/O3vUgjUH5LRUBoPtxIwAAgRS6ESC1evXqJFN+9X7w4MHJP82IESOS/S37mvapU6cm7T0gMEM+cBS9aqDdBJBWg8997nOPPfbYnXfe+ZGPfGRf5v+5XK7l9bJly+6+++7s8S1XQ7TeAaFdLgEAoBuTAAAIpLGxsdBba9euTTLlE8CgQYOSf5r9uxdAXvZqfLo2ftBBB51xxhntvtv6WX0tqqqq0vl/9t4BS5cuffnll9scPPPMM+fPn/+hD32oZSe/fVFW9g9XMt5xxx3Z41su/s++C+Dee+/d8zmLANBtSAAA8BcZdSCvR48eyT/5KoCO3APfWc8991z28+2nTZvWssNfa2+++eYtt9zS7ilnn3129gL+7Nmz2xy55JJLZsyYsR//gSUl//DfME8++WT2NgpjxowZO3Zs+vWII47IGJZdTACgq5MAAAikzbyxtYwb5vO2b9+edKAU7Ivy8vLkn2DPCXlr5557brvHH3rooUIPxnvve9+bZLrnnntaf3vqqad+5StfSTrmmWeeWbx4cdJ5d955Z/aAc5plDEg7wu9///sEALov2wECEEjrG8jbKLrP39atW9Ovr776apuHzLcxb968FStWJHul6MPt9s6cOXMyHlJQSJoA0tl49m6C7brvvvvyn1Ver169pk+fnn3KCy+88Itf/OLxxx9/8cUX80ceeeSRzu6MkAaLRx99NGOTgrPOOivj/wESlwAAEIAEAEAgGTPA7F3iU/nL6dMEkD1syZIlN9xwQ3Igeemll5YtWzZ+/PhOnfXYY4+lX9NV8YsuuqhTJ7bZTu/iiy/Ovv7/d7/73cc//vE2BzOu18hw1113ZSSA6urqjHPT32ybixcAoPtxIwAA/GWluuhG8U8//XT6dfny5dnDJk2alBx4im6Y38aiRYvyNz4sWLCgUydu27btgQceaH3k7W9/e8b4N99889Of/vSex7OX6wtJ68Mf//jHZK+k8/9du3YlANCtSQAABFJobTldhS661X8+ATz++OPZw84+++yi9xSkY4reTr9/zZ07t1PjW3YBKPrvbSNd0m9zJPs+gvvvv7+2tnbP43t3FUDS+djRorMfEQB0RRIAAIG0u7ZcXV39oQ99KPvEN954I7+8vHnz5meeeSZ78LXXXptx6fu73vWuH/3oR1//+tenT59eWVmZ7IPevXu3OVJVVdXuyA0bNuQv7O+gll3x0oXxQpsCtqvNXQBJscco7vftFR944IHWOxF00Lx585577rkEALo7CQCA0C6++OKOrBvffPPNLa+LPoL+qKOOmjVrVrrU3+b4uHHjrr/++uuuuy7/7QUXXJAOO/zwwwv9OTt27EgynXDCCS2v+/TpM23atJ///OeFBnf8Rvc1a9a89NJLLd92PAG8+eabTzzxRJuD7T5xsMWFF17Yr1+/NgfTgFKoZRS1bt267KcDtuvee+9NACCAXPbWOADQhaxatSp7QDqzTaeI27ZtW758ec+ePdMF+eHDhyfFbNq06ZRTTmmZkFdUVDz88MNFbxxIrV27Np0/b968ecKECYMHDx4zZsyeY9Jl9quuuqrdaXa6ND1q1Kjsv+L2229Pf7y3ve1txx13XP7I+eef3+4jCfr27Zu/l6GoG2644Zvf/GbLt8OGDevgFQRtTswrurf/4sWL0yzy1FNPJc2f7emnn37llVcW3Z3x8ssvL9Qm0l/Wz372s6TDVq9efc455/xTH/cIAAcITwQAoPuor68vLy/PGHBos/RFOs9MOuyHP/xh6wX52tram2666eqrry56Yjr1/e///u/sMZWVlddff/21116bfm3zVhosiiaAd7/73W2OvP/97//sZz+758itW7emc+bTTjstKablLoC8dG1/5cqVRx55ZNET211Lnz9//qWXXppx1vHHH3/rrbcm+8+DDz64ZMmSliZSVPpjm/8DEIQbAQDoPrLn/3snXSL+5S9/2ebgjBkz9uOt47lc7jOf+czXvva1NseXLVuWdN6FF144cODAdt/67W9/mxSzbdu2RYsWtTnYJgq0a82aNe3uxr8Xl+Xvu1mzZnVw5Lp16/ZvgACAA5kEAAAFpQvgH/jAB9p968Mf/vDGjRuT/WTXrl17zs/nzZuX7JVCq+7pgnxSzMMPP7znwY4kgNtvv73d40888cSWLVuS/11z5sxJk0RHRqYfe1oBEgCIQQIAoPuoqalJ9p90/v+e97zntddea/fdtWvXXnLJJfulAuzYsSP9o5YsWdLm+IoVK5599tmk89Ifu93jaWgouilguzfYL126tOg2+7Nnzy701k9/+tPkf1f6L834eVr7P7lIAQD+r0gAAHQfTU1NyX6STiDPO++8V199NWPM888/f+GFF65evTrZB+ki+dSpU9u9hD71+c9/Pum8oUOHHnHEEe2+VfRegAcffLBTx/PSRpA2kULvzpw587777ks6Y/v27cm+ueuuu4qOWbRoUQe3SASA7kECAKD7uPLKK+fNm5euACf74MUXX7z44ouvvvrqTZs2FR2cNoKzzjrr+9//ftJ56br6F7/4xUsuuSQjNKxYseLyyy/v1L9oyZIlF1xwQZon2n13wYIFGev5f/jDHwpdtP/QQw8lhRW9uOBjH/vYjBkzko5J+8upp576yiuvJPsg/VTvvPPO7DGdDRMA0NVJAAB0H48++mhaAcaPH//BD37w7rvv3rx5c6dOX7hwYTrfPvPMMxcvXtypE3/4wx++4x3vuP7669evX1908Ouvv37rrbdeccUVJ5544m233VZ0fPpTnXPOOXPnzs0etmPHjnTm/L73ve+//uu/svcRzLj0PWOpPzsBdGQu/d3vfvf8888v9CS/pLmJ3H777RdddFG+v6S/wWTfZD/FIP1FzJkzJwGASHLV1dUJAHRTI0aMOPTQQw877LCDDz74kEMOabNVfm1t7Zo1a9Jl/2effXb58uX7ZSuB44477qCDDhoyZEj//v3Tv33QoEHbt29PV6TXrVu3du3a1atXF1qfL6pfv35TmlVVVaXf1tXVpXPmLc2WLl3akR378oYOHVroWYMrV67M6CYTJ06sqKjY83j6uRW6kaFd6a/jqKOOGj58ePobSX8v6YfzwgsvrFix4sknn2w9rG/fvmPHji30h2T/qKnJkyffcsstGQNmzpx57bXXJgAQiQQAAHRD3/72t//jP/4jY8DUqVPTjpAAQCRlCQBA93LMMcdkz//vvvtu838AArIXAADQVVVWVr73ve8dMGBA64O9evW6/PLLs0+cNWtWAgDxuBEAAOiqLrjggunTp2/ZsuWpp556+OGHV61aNWbMmPPPP3/ixIkZZz300EOXXXZZAgDxuBEAAOiqzjzzzKR5o8TTm3XwrH1/1gAAdFESAADQJVVXV0+ZMiXppGXLlt1zzz0JAIQkAQAA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AEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAgBAkAAAAAQpAAAAAAIAQJAAAAAEKQAAAAACAECQAAAABCkAAAAAAghP8PAAD///RRLmoAAAAGSURBVAMAmYhnMwxgEw4AAAAASUVORK5CYII=" alt="Step 1" style="max-width:280px;border:1px solid #444;border-radius:4px;">
+          </div>
+        
+          <div style="display:inline-block;margin:6px;text-align:center;vertical-align:top;">
+            <div style="font-size:11px;color:#aaa;margin-bottom:4px;">Step 2: Play Button Click
+              <span style="background:#10b981;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;margin-left:4px;">PASS</span>
+            </div>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAIAAAD/O9CzAAALPklEQVR4nOxdX4hOWxTf55vBjH+l3Ds0GCWEBykp4oEiES8i6Y4kJUkSpeS/SEniQf694F4PupMHCg94okTKxfg3vPhTU8MDYhjm3HXv+Zy7v733Wnudc75vn++yfw86s/baa++zztq/vfbag1rh4RC1wsMhiu4Ow5DZIQgCo1y2EOsYhQQifVkTs6BMOGrS36JccmMToWwE6PvodooSd9MBKH9GPQytn5oZp0bjRgv0HDLKZSEnfpmu89HtFAZ3Y4ymS7B4sSIRaRp1Yk190WAkm0iuCzkxbnWdj26nyORuPcaVeKc5WtfhtxrplSb9RHKa4vnZiAIf3U6R0t10OqFEDdZEpzr0oAR3y88ZsxT+gmDCR7dTGNzN+XT02VJpTZp10IyvGMfMlkXOSdL4rcJHt2OUuJu/4RJMLevw93TaoJHry87Ustw6uuDlXQp8dDtFyh02gjWVxuJajwt6HRDLiJ/SYMGYIs1InZ/46HaKkno3fUrEPimRpdBxrSgbn7HM14osmYlxddLdaf1Y4qPbKUo+o6GZjGsZRHQoQqULJ4U3PjOzI5HhEMifFa0Zw0e3U7DCUNbB0meC4PjBRXNfaLtCJEgznZzP3cxF5qPbKYrupuMCO33Jrfqz1aBsCuNEbGXE3M1ncGxiRjltRH+XkCyR+swkH1jcjRUKOOFJgF/z02NEiSa6uJFannRWslyH5+58YPgtKk7ljKOpBGCYsOaHxY6xaGdUYMp1GJcOf2Mg3tRHt1NYfouKjgUmG/IPpTo7W9P87Bk3sd9wlrUuwXIVIYQlq8fk9GZY9gKssVfZDzUi1WGHz2l+q3SNBNGNmggyFWA5xo15ZxnTPoEUHqwZLVPfb5X5oIRkUSVyl9MtKNyNGaG3UJrTMxZgU3M3f1AdnrtdA02ndDl/gyZ4kJ8O0hKjcUySQp6Fu4mBfHQ7hYGkig2MrFZvpT+vfTaMdaBwt95RlshdUsizGDHO2Ue3U2QqwOpVJGPyIMMY+N++fbt8+fKpU6fq6+s/f/5cKBSIlREPZz1bg526ujowFZnt7u7mTIaeOTYfjqNENeTd7e3tK1asuHDhgsjAQkaAfz9+/Bg99+3bFwZqaGgQucKSmWCt1oShZAw8MwUXDB8+vLOzU9Ysl7sVDB069NatW5HHU2cpibJsvVdB5AfgkGXLlsEyD75DVBIvX75cvnw5DCryAyvvRjvbopteEOfPn583b15FI1qfT21tbVdXlzwlbKqCl57xU36Rb3SfPn1aOAe4W+SHkl980D8gfZ7EPmz8TH/53r17C+eQZ56iZoJJsDRJGS7PTw2sLZzjy5cvIj+gp8piM6OMS2QpdEGj0nsjBk55hL+jcNKzKsq7fyqUZCZFEVl/kGGtEfKLiI5R0Xo3YcpHt1NkqnfrmkWjQUA3/RjczVwcokoyk58QZQhDIi1lRgeU7sS/FSXhClY65u86YZJLgjxPlRHGjBnz7t27169fg9OJykn0SeSH/yMMU9ffOUSg943kkQWsiqIYhx/heNmnTx9iKUyYMAGOJy0tLWvWrIGKx6ZNm0QlocxEfqn41YxOoN0iqiG6ReTx+t5QsWtra1uwYAH8uHLlyranbSC5evXqsGHDzp07V1NTM3PmzKampg8fPixcuBB0Dh06dOXKFXi4efPm48ePFy9efOfOnVevXoGRtWvX3r9//+HDh/AVe/Toce/evSdPngwcOFDkjaK7lahUPl2gQe4lm5MtGMeTB4ok4Ef4s+tr14kTJxobG8+cOTN//vyDBw92vOnYsmXL9OnTW/5sgbse0Hnx4sWbN2+gZj1+/HiI96VLl06dOhWq2JMmTRo5cmRrayu4eM+ePYMHD962bRt0GT16NKwD+HPs2LF3796FvvEcsBVsfUG+W2RXxK35RzfskDChr1+/7tix48GDB7U1tevXr+/Zs+eQIUNWr14NTU3Dm44ePQqarQ9a9+7de/LkSZj6vn37+vXrB+W9Xbt2QdOxY8fEv++/ZMkS+H79+/eHqzjo2/xb84EDB4DuN2/eHDJO5JWGpSIYIldwci9dU0Fguw0Jvt95wtqHXOnt27fw4+3bt48cOQJM8vTp00izUFMAV549exY8OGPGDCCN58+fNzc3w43B9u3bIX4HDBgwd+7c48ePw6cCeonq6Y1DGmEfBk3jtOlJBoyTQUjm2goKxv7MXQ7bMXRNYeOZXr16Xb9+fdSoUeDcDRs2gMfBcTt37jx8+PCsWbM6Ojq6v3UDdwNjABdfunQJugCrwPeAB0hsQAFCGJpWrVoFZBLNDQI/GhQuceIrBXnaxMRoXrW+rCKPLeR/zIHNbf/+/ZMnT4bIBdLYuHHj+/fvgZSBN3795Ve4gti9e/enT59+/+N3YOG/7v4FbgWWh0CGPx89enTx4kXYMIGLFi1aBDEOD0AsI0aMAMvPnj0DpoIy77Vr10R1gFVHRzuXowBr1NGXS2irbSqvsHXr1ilTpsCCgF133bp1uk46BOzCrN5LVI+7jRNQ7BinhC3kGzdujBs3DjYAyG2U1vzdHSYpSBKtYTUVYIF2jIUBIhpkuaJPR2HAK8/+yCUql0UYJtASFaszL2xpMnGPLGQSIelbhL4AmwtYf6+S2M1EwgJs9sjKDn0rFuRWrytjwLg78FfDucDwr2TSeQgN/fMqSJdIVQhEZmJNVwSe5uqI3ZJniSqXi4J8byfQmolcKIieAwm6TgS6MKKYGjRokHAOGFR5L+MzpoC9sj6Q0RV5fmoojMTfT7gCDCryg+VUKbeiJmx0jHEcFLWNv/tbUUDVMPsvHKd+zjO64fqxvr7emaMBc+bMkSux7mEI5yx1khLTppqJYqq9vX3ixIlwJykqj7q6OvB19LcXwiQ1ohBJtwLy8GGU53x51tDQAEU7uEkQFQbcE8W+zhGWPSq05dFmo0FAd9ejAG5z/qG2QqGzs7NcpSWwBnnItGnT4BJ59uzZ0R10SBbzaKERnMJR1dVM5F+tD5GSliKh39PllsAHq95dVCVbS4ziFUFdIWTXxAli1ZWJLiIDd+uDykNjmUkMXzNxCksYGjqQRxI6FTEq02bDJOVG2RSTo0VZuRtD1XH3T4IEYZjiqB2S9zjpclgFfNJPIadPlRwdz915wlLvpj+pNeWQ1WgeDMl7n8BUa5bNBtKlSUbWFsJe76azFB2eu/MBy92cqE+UPMjgLB1ruVFXw9ZlIjmHr/l1QeG52zEs/ysUn3xlOzEwcgwZRUfMAjMjxownknNOA9gqNOdRAgHnmMvffKxqnDSR/kjCRnq0piynm5RZ6QaJt/Bk4hSW6wU6losmeOGWfdu0pl/8KpJVzh+XkxT6rTIfGLbKFEwnGIFMLALBi33FGk3ltFzvy9wqrame8If46gHK3WgHMkiNSHpKYvZNmthgBgk5Z+b6EMRb+Oh2CsN/UxSBmerS4EcH1os+eQnbjsIZiCnnn/KwOQvP3Y6BuptzQrMmofyMmxPpRNAZA1+ZVRkLsFhZAoPn7nxg+O9BMfBTC2PyQJvFdnlrDqDn/thsdXDOE4Qy1tEXYKsFaGaCATt5Gu1g5MjJtfXhlEBOem6UW7FB49akuw5zifjodoriN+Hk1/zMxGW9mz7aJTpDCsbZkjOcPudY4qPbKQzRzTlh0h85hjVrJgbCJCmMpJAnNcKZkvDc7Rgp3W1MFUTmejdnNRjtYElxRjm2rOnkR59YDB/dTpHS3RipGSV0nGbMTzgrLIUcU9bBiX1fM8kHmfJuGkRJWlH4bzYM40pBBjsHlEVOHzJ0HWK20Y8+up3CQq+GDuzNOtHZMimPK2oyyn6SxOTWM6Twp8p8wSVij7LgbwAAAP//f+kxpgAAAAZJREFUAwAFByV/rLoxkwAAAABJRU5ErkJggg==" alt="Step 2" style="max-width:280px;border:1px solid #444;border-radius:4px;">
+          </div>
+        
+          <div style="display:inline-block;margin:6px;text-align:center;vertical-align:top;">
+            <div style="font-size:11px;color:#aaa;margin-bottom:4px;">Step 3: Game Element Loaded
+              <span style="background:#3b82f6;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;margin-left:4px;">EVIDENCE</span>
+            </div>
+            <img src="data:image/png;base64,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" alt="Step 3" style="max-width:280px;border:1px solid #444;border-radius:4px;">
+          </div>
+        
+            </div>
+          </div>
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Wealth Inn</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">777 Strike</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Hey Sushi</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Book of Dead</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Gates of Olympus</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Disco Beats</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Cash Volt</h3>
+            <span style="font-size:12px;color:#888;">Category: slots</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Aviator</h3>
+            <span style="font-size:12px;color:#888;">Category: crash-games</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Classic Blackjack</h3>
+            <span style="font-size:12px;color:#888;">Category: table-game</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">European Roulette</h3>
+            <span style="font-size:12px;color:#888;">Category: table-game</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Baccarat</h3>
+            <span style="font-size:12px;color:#888;">Category: table-game</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Live Roulette</h3>
+            <span style="font-size:12px;color:#888;">Category: live-casino</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Live Blackjack</h3>
+            <span style="font-size:12px;color:#888;">Category: live-casino</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Crazy Time</h3>
+            <span style="font-size:12px;color:#888;">Category: live-casino</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+      <div style="background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:20px;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#e0e0e0;">Mega Ball</h3>
+            <span style="font-size:12px;color:#888;">Category: live-casino</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:24px;font-weight:700;color:#ef4444;">-</div>
+            <div style="font-size:11px;font-weight:600;color:#ef4444;">FAILED</div>
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+          <thead>
+            <tr style="background:#2a2a3e;">
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:50px;">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Test Step</th>
+              <th style="padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-bottom:2px solid #444;width:80px;">Status</th>
+              <th style="padding:8px 10px;text-align:left;color:#aaa;font-size:11px;border-bottom:2px solid #444;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">1</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Lobby Navigation</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">2</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Play Button Click</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">3</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Game Element Loaded</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">4</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Continue/Accept</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">5</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Credits/Balance</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">6</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">7</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Min Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">8</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Max Bet</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">9</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Bet Reset</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">10</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Paytable/Info</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          <tr>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">11</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;">Auto-Spin</td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;text-align:center;">
+              <span style="background:#6b7280;color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;">NO DATA</span>
+            </td>
+            <td style="padding:6px 10px;border-bottom:1px solid #333;font-size:12px;color:#888;">Step result not captured - see screenshot below</td>
+          </tr>
+        
+          </tbody>
+        </table>
+
+        
+      </div>
+    
+
+    <!-- Footer -->
+    <div style="text-align:center;padding:20px 0;border-top:1px solid #333;margin-top:20px;">
+      <p style="font-size:11px;color:#666;">Generated by GamePulse Dashboard | Betway Casino Game Testing</p>
+      <p style="font-size:11px;color:#666;">Built by Harsha Toshniwal - Zensar Technologies</p>
+    </div>
+  </div>
+</body>
+</html>

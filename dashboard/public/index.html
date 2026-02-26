@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamePulse - Performance & API Analytics Dashboard</title>
+  <link rel="stylesheet" href="/css/gamepulse.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+  <header id="app-header">
+    <div class="header-top">
+      <div class="logo">GamePulse<span>Performance & API Analytics</span></div>
+      <div id="status-badge" class="status-badge idle">
+        <div class="pulse idle"></div>
+        <span class="status-text">Idle</span>
+      </div>
+    </div>
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="setup">Setup & Record</button>
+      <button class="tab" data-tab="har-files">HAR Files</button>
+      <button class="tab" data-tab="performance">Performance</button>
+      <button class="tab" data-tab="api-coverage">API Coverage</button>
+      <button class="tab" data-tab="verification">Verification</button>
+      <button class="tab" data-tab="comparison">Game Comparison</button>
+      <button class="tab" data-tab="game-testing">Game Testing</button>
+    </nav>
+  </header>
+
+  <main id="app-main">
+
+    <!-- ═══════════ TAB 1: Setup & Record ═══════════ -->
+    <section id="tab-setup" class="tab-panel active">
+
+      <div class="section">
+        <h2>Add Games</h2>
+
+        <!-- Method A: Single URL -->
+        <div class="input-section">
+          <h3>Method A: Enter Game URL</h3>
+          <div class="input-row">
+            <input type="text" id="game-url" placeholder="https://www.betway.co.za/lobby/casino-games/slots/game-name">
+            <input type="text" id="game-name" placeholder="Game name (auto-detected)" style="max-width:220px;">
+            <button id="btn-add-url" class="btn primary">+ Add</button>
+          </div>
+        </div>
+
+        <!-- Method B: Excel Upload -->
+        <div class="input-section">
+          <h3>Method B: Upload Excel</h3>
+          <div id="drop-zone" class="drop-zone">
+            <p>Drag & drop .xlsx file here, or click to browse</p>
+            <p style="font-size:11px;color:var(--text-dim);margin-top:4px;">Columns: Game URL | Game Name | Features (comma-separated)</p>
+            <input type="file" id="excel-file" accept=".xlsx,.xls" hidden>
+          </div>
+          <div id="excel-preview"></div>
+        </div>
+
+        <!-- Quick add from catalog -->
+        <div id="catalog-games" class="input-section"></div>
+      </div>
+
+      <!-- Game Queue -->
+      <div class="section">
+        <h2>Game Queue (<span id="queue-count">0</span>)</h2>
+        <table id="game-queue-table" class="queue-table">
+          <thead><tr><th>#</th><th>Game Name</th><th>URL</th><th></th></tr></thead>
+          <tbody>
+            <tr><td colspan="4" class="queue-empty">No games in queue. Add games using the URL input or Excel upload above.</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:8px;">
+          <button id="btn-clear-queue" class="btn small secondary">Clear Queue</button>
+        </div>
+      </div>
+
+      <!-- Feature Selection -->
+      <div class="section">
+        <h2>Recording Options</h2>
+
+        <div class="feature-section">
+          <h3>Gameplay Features to Record</h3>
+          <div class="feature-checkboxes">
+            <label><input type="checkbox" id="feat-login" checked> Login</label>
+            <label><input type="checkbox" id="feat-lobby" checked> Lobby Navigation</label>
+            <label><input type="checkbox" id="feat-launch" checked> Game Launch</label>
+            <label><input type="checkbox" id="feat-bet" checked> Bet Adjustment</label>
+            <label><input type="checkbox" id="feat-spin" checked> Spin</label>
+          </div>
+          <div style="margin-top:6px;">
+            <button id="btn-select-all" class="btn small secondary">Select All</button>
+            <button id="btn-deselect-all" class="btn small secondary">Deselect All</button>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <h3>Load Test Configuration</h3>
+          <label style="display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;">
+            <input type="checkbox" id="cfg-load-test-enabled" style="accent-color:var(--color-accent);">
+            <span>Enable Load Test</span>
+          </label>
+          <div class="config-grid" id="load-test-options">
+            <label>Virtual Users <input type="number" id="cfg-vus" value="5" min="1" max="50"></label>
+            <label>Iterations <input type="number" id="cfg-iterations" value="2" min="1" max="20"></label>
+            <label>Ramp-up (sec) <input type="number" id="cfg-rampup" value="5" min="0" max="60"></label>
+            <label>Think Time (ms) <input type="number" id="cfg-thinktime" value="500" min="0" max="5000"></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="btn-record-only" class="btn primary">Record HAR Only</button>
+        <button id="btn-run-pipeline" class="btn accent">Run Full Pipeline</button>
+        <button id="btn-abort" class="btn danger" disabled>Abort</button>
+      </div>
+
+      <!-- Progress Panel -->
+      <div id="progress-panel" class="section progress-panel hidden">
+        <h2>Progress</h2>
+        <div id="progress-overview"></div>
+        <div id="progress-steps"></div>
+        <div id="live-log" class="live-log"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 2: HAR Files ═══════════ -->
+    <section id="tab-har-files" class="tab-panel">
+      <div class="section">
+        <h2>Recorded HAR Files</h2>
+        <div class="scroll-table">
+          <table id="har-files-table">
+            <thead><tr><th>Game</th><th>File Size</th><th>Entries</th><th>Recorded At</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td colspan="5" class="queue-empty">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 3: Performance ═══════════ -->
+    <section id="tab-performance" class="tab-panel">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+        <button id="btn-download-pdf" class="btn accent" disabled>Download PDF Report</button>
+      </div>
+      <div id="performance-content">
+        <div class="empty-state">
+          <h3>No Performance Data</h3>
+          <p>Run the full pipeline to generate load test results.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 4: API Coverage ═══════════ -->
+    <section id="tab-api-coverage" class="tab-panel">
+      <div class="empty-state">
+        <h3>No API Coverage Data</h3>
+        <p>Record HAR files first — analysis will be generated automatically.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 5: Verification ═══════════ -->
+    <section id="tab-verification" class="tab-panel">
+      <div class="empty-state">
+        <h3>No Verification Data</h3>
+        <p>Record HAR files first — verification will be generated automatically.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 6: Game Comparison ═══════════ -->
+    <section id="tab-comparison" class="tab-panel">
+      <div class="empty-state">
+        <h3>No Comparison Data</h3>
+        <p>Record HAR files and run the pipeline first.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════ TAB 7: Game Testing ═══════════ -->
+    <section id="tab-game-testing" class="tab-panel">
+
+      <!-- Manual Game Input -->
+      <div class="section">
+        <h2>Add Game to Test</h2>
+        <div class="pt-manual-input">
+          <div class="pt-input-row">
+            <div class="pt-input-group">
+              <label for="pt-game-url">Game URL</label>
+              <input type="text" id="pt-game-url" placeholder="https://www.betway.co.za/lobby/casino-games/game/sugartime-egt" style="width:100%;">
+            </div>
+          </div>
+          <div class="pt-input-row">
+            <div class="pt-input-group" style="flex:2;">
+              <label for="pt-game-name">Game Name <span style="color:var(--text-dim);font-size:11px;">(auto-detected if blank)</span></label>
+              <input type="text" id="pt-game-name" placeholder="Sugar Time">
+            </div>
+            <div class="pt-input-group" style="flex:1;">
+              <label for="pt-game-category">Category</label>
+              <select id="pt-game-category">
+                <option value="slots">Slots</option>
+                <option value="crash-games">Crash Games</option>
+                <option value="table-game">Table Games</option>
+                <option value="live-casino">Live Casino</option>
+              </select>
+            </div>
+            <div class="pt-input-group" style="flex:1;">
+              <label for="pt-game-provider">Provider <span style="color:var(--text-dim);font-size:11px;">(optional)</span></label>
+              <input type="text" id="pt-game-provider" placeholder="EGT">
+            </div>
+            <div class="pt-input-group" style="flex:1;">
+              <label for="pt-game-username">Username <span style="color:var(--text-dim);font-size:11px;">(optional)</span></label>
+              <input type="text" id="pt-game-username" placeholder="Region user/mobile">
+            </div>
+            <div class="pt-input-group" style="flex:1;">
+              <label for="pt-game-password">Password <span style="color:var(--text-dim);font-size:11px;">(optional)</span></label>
+              <input type="password" id="pt-game-password" placeholder="Region password">
+            </div>
+            <div class="pt-input-group" style="flex:0 0 auto; align-self:flex-end;">
+              <button id="pt-add-game" class="btn primary">Add</button>
+            </div>
+          </div>
+        </div>
+        <div id="pt-manual-queue" style="margin-top:10px;"></div>
+      </div>
+
+      <!-- Game Selection from Catalog -->
+      <div class="section">
+        <h2>Or Select from Catalog</h2>
+        <div id="pt-game-selection">
+          <div class="empty-state"><p>Loading catalog...</p></div>
+        </div>
+        <div class="pt-actions">
+          <button id="pt-select-all" class="btn small secondary">Select All</button>
+          <button id="pt-deselect-all" class="btn small secondary">Deselect All</button>
+          <span class="pt-count"><span id="pt-selected-count">0</span> selected</span>
+        </div>
+      </div>
+
+      <!-- Run Controls -->
+      <div class="section">
+        <div class="pt-actions">
+          <label class="pt-headed-toggle" title="Show browser window during test">
+            <input type="checkbox" id="pt-headed-mode">
+            <span class="pt-toggle-label">Headed Mode</span>
+          </label>
+          <label class="pt-headed-toggle" title="Draw red circles on clicked controls in step screenshots">
+            <input type="checkbox" id="pt-annotate-clicks">
+            <span class="pt-toggle-label">Click Annotation</span>
+          </label>
+          <label class="pt-headed-toggle" title="Mandatory pre-step: capture feature images into tmp before gameplay tests start">
+            <input type="checkbox" id="pt-auto-capture-images" checked disabled>
+            <span class="pt-toggle-label">Image Capture (Mandatory)</span>
+          </label>
+          <button id="pt-run-selected" class="btn primary">Run Selected / Added Games</button>
+          <button id="pt-run-all" class="btn accent">Run All Catalog</button>
+          <button id="pt-abort" class="btn danger" disabled>Abort</button>
+        </div>
+      </div>
+
+      <!-- Live Logs -->
+      <div id="pt-logs-panel" class="section" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2>Live Logs</h2>
+          <div>
+            <button id="pt-logs-clear" class="btn small secondary">Clear</button>
+            <button id="pt-logs-toggle" class="btn small secondary">Collapse</button>
+          </div>
+        </div>
+        <div id="pt-logs-container" class="pt-logs-container">
+          <pre id="pt-logs-output"></pre>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div id="pt-progress-panel" class="section pt-progress hidden">
+        <h2>Test Progress</h2>
+        <div id="pt-progress-overview" style="font-size:12px;color:var(--text-muted);margin-bottom:10px;"></div>
+        <div id="pt-progress-rows"></div>
+      </div>
+
+      <!-- Results -->
+      <div id="pt-results-panel" class="section" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2>Test Results</h2>
+          <div class="pt-report-actions">
+            <button id="pt-download-report" class="btn accent" disabled>Download Report</button>
+            <button id="pt-validate-report" class="btn secondary" disabled>Validate Report</button>
+          </div>
+        </div>
+        <div id="pt-validation-results" class="validation-results" style="display:none;"></div>
+        <div id="pt-results-summary" class="summary-grid" style="margin-bottom:16px;"></div>
+        <div class="scroll-table">
+          <table class="pt-results-table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Game</th>
+                <th>Category</th>
+                <th>1. Lobby</th>
+                <th>2. Play</th>
+                <th>3. Load</th>
+                <th>4. Continue</th>
+                <th>5. Credits</th>
+                <th>6. Spin</th>
+                <th>7. Min Bet</th>
+                <th>8. Max Bet</th>
+                <th>9. Bet Reset</th>
+                <th>10. Paytable</th>
+                <th>11. Auto-Spin</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="pt-results-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Screenshot Modal -->
+      <div id="pt-screenshot-modal" class="pt-modal-overlay hidden">
+        <div class="pt-modal">
+          <button class="pt-modal-close" onclick="closePtScreenshotModal()">&times;</button>
+          <div class="pt-modal-title" id="pt-modal-title"></div>
+          <img id="pt-modal-img" src="" alt="Screenshot">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    GamePulse Dashboard &mdash; Betway Casino Game Performance & API Analytics<br>
+    Built by Harsha Toshniwal &ndash; Zensar Technologies
+  </footer>
+
+  <script src="/js/charts.js"></script>
+  <script src="/js/gamepulse.js"></script>
+</body>
+</html>

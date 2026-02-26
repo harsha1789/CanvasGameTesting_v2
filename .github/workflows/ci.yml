@@ -1,0 +1,234 @@
+name: Betway Automation Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - slots
+          - table-games
+          - live-casino
+          - data-driven
+
+jobs:
+  test:
+    name: Run Tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18.x]
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      
+      - name: Generate game catalog
+        run: npm run scrape:games
+        continue-on-error: true
+      
+      - name: Run all tests
+        if: github.event.inputs.test_suite == 'all' || github.event.inputs.test_suite == ''
+        run: npx playwright test --project=${{ matrix.browser }}-desktop
+        env:
+          CI: true
+      
+      - name: Run slots tests
+        if: github.event.inputs.test_suite == 'slots'
+        run: npx playwright test tests/slots/ --project=${{ matrix.browser }}-desktop
+        env:
+          CI: true
+      
+      - name: Run table games tests
+        if: github.event.inputs.test_suite == 'table-games'
+        run: npx playwright test tests/table-games/ --project=${{ matrix.browser }}-desktop
+        env:
+          CI: true
+      
+      - name: Run live casino tests
+        if: github.event.inputs.test_suite == 'live-casino'
+        run: npx playwright test tests/live-casino/ --project=${{ matrix.browser }}-desktop
+        env:
+          CI: true
+      
+      - name: Run data-driven tests
+        if: github.event.inputs.test_suite == 'data-driven'
+        run: npx playwright test tests/data-driven/ --project=${{ matrix.browser }}-desktop
+        env:
+          CI: true
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.browser }}-${{ matrix.os }}
+          path: |
+            reports/
+            test-results/
+            screenshots/
+          retention-days: 30
+      
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}-${{ matrix.os }}
+          path: playwright-report/
+          retention-days: 30
+      
+      - name: Upload traces
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: traces-${{ matrix.browser }}-${{ matrix.os }}
+          path: test-results/**/trace.zip
+          retention-days: 7
+      
+      - name: Publish test summary
+        if: always()
+        run: |
+          echo "## Test Results - ${{ matrix.browser }} on ${{ matrix.os }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f reports/results.json ]; then
+            echo "Test execution completed. Check artifacts for detailed reports." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No test results found." >> $GITHUB_STEP_SUMMARY
+          fi
+
+  mobile-tests:
+    name: Mobile Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium webkit
+      
+      - name: Run mobile Chrome tests
+        run: npx playwright test --project=mobile-chrome
+        env:
+          CI: true
+      
+      - name: Run mobile Safari tests
+        run: npx playwright test --project=mobile-safari
+        env:
+          CI: true
+      
+      - name: Upload mobile test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: mobile-test-results
+          path: |
+            reports/
+            test-results/
+            screenshots/
+          retention-days: 30
+
+  multi-region-tests:
+    name: Multi-Region Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        region: [betway-za, betway-ng, betway-ke]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Run tests for ${{ matrix.region }}
+        run: npx playwright test --project=${{ matrix.region }}
+        env:
+          CI: true
+      
+      - name: Upload region test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.region }}
+          path: |
+            reports/
+            test-results/
+          retention-days: 30
+
+  report:
+    name: Generate Consolidated Report
+    runs-on: ubuntu-latest
+    needs: [test, mobile-tests, multi-region-tests]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: all-artifacts
+      
+      - name: Generate summary report
+        run: |
+          echo "# Betway Automation Test Report" > report-summary.md
+          echo "" >> report-summary.md
+          echo "**Date**: $(date)" >> report-summary.md
+          echo "" >> report-summary.md
+          echo "## Artifacts Generated" >> report-summary.md
+          ls -R all-artifacts >> report-summary.md
+      
+      - name: Upload consolidated report
+        uses: actions/upload-artifact@v3
+        with:
+          name: consolidated-report
+          path: report-summary.md
+          retention-days: 90

@@ -1,0 +1,29 @@
+{
+  "harRecording": {
+    "outputDir": "har-files",
+    "headless": false,
+    "gameLoadTimeout": 60000,
+    "postSpinWaitMs": 5000,
+    "betIncreaseTimes": 1,
+    "proxy": "bypass",
+    "ignoreHTTPSErrors": true
+  },
+  "loadTest": {
+    "virtualUsers": 5,
+    "iterations": 2,
+    "rampUpSeconds": 5,
+    "thinkTimeMs": 500,
+    "timeoutMs": 30000,
+    "includeStaticAssets": false
+  },
+  "report": {
+    "outputDir": "load-test-reports",
+    "title": "Betway Game Load Test Report"
+  },
+  "gameFilter": {
+    "categories": [],
+    "providers": [],
+    "gameIds": [],
+    "excludeGameIds": []
+  }
+}

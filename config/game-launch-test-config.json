@@ -1,0 +1,163 @@
+{
+  "testConfig": {
+    "baseUrl": "https://www.betway.co.za",
+    "maxLoadTimeSeconds": 10,
+    "screenshotOnPass": true,
+    "screenshotOnFail": true,
+    "retryOnFail": 1
+  },
+  "credentials": {
+    "username": "222212222",
+    "password": "1234567890"
+  },
+  "browsers": [
+    { "name": "Chrome", "project": "chromium" },
+    { "name": "Firefox", "project": "firefox" },
+    { "name": "Edge", "project": "chromium" },
+    { "name": "Safari", "project": "webkit" }
+  ],
+  "mobileDevices": [
+    { "name": "Android - Pixel 5", "device": "Pixel 5", "platform": "Android" },
+    { "name": "Android - Samsung Galaxy S21", "device": "Galaxy S21", "platform": "Android" },
+    { "name": "iOS - iPhone 12", "device": "iPhone 12", "platform": "iOS" },
+    { "name": "iOS - iPhone SE", "device": "iPhone SE", "platform": "iOS" },
+    { "name": "iOS - iPad Pro", "device": "iPad Pro 11", "platform": "iOS" }
+  ],
+  "games": [
+    {
+      "id": "G001",
+      "name": "Aviator",
+      "provider": "Spribe",
+      "category": "crash",
+      "url": "/lobby/casino-games/game/aviator"
+    },
+    {
+      "id": "G002",
+      "name": "Hot Hot Betway",
+      "provider": "Habanero",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/hot-hot-betway"
+    },
+    {
+      "id": "G003",
+      "name": "Gates of Olympus",
+      "provider": "Pragmatic Play",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/gates-of-olympus"
+    },
+    {
+      "id": "G004",
+      "name": "Starburst",
+      "provider": "NetEnt",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/starburst"
+    },
+    {
+      "id": "G005",
+      "name": "Book of Dead",
+      "provider": "Play'n GO",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/book-of-dead"
+    },
+    {
+      "id": "G006",
+      "name": "Thunderstruck II",
+      "provider": "Microgaming",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/thunderstruck-ii-sa"
+    },
+    {
+      "id": "G007",
+      "name": "777 Strike",
+      "provider": "Red Tiger",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/777-strike-rt"
+    },
+    {
+      "id": "G008",
+      "name": "Duck Hunters",
+      "provider": "Nolimit City",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/duck-hunters-nlc"
+    },
+    {
+      "id": "G009",
+      "name": "Arctic Enchantress",
+      "provider": "Microgaming",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/arctic-enchantress-za"
+    },
+    {
+      "id": "G010",
+      "name": "Betway Buffalo Extreme",
+      "provider": "Booming Games",
+      "category": "slots",
+      "url": "/lobby/casino-games/game/betway-buffalo-extreme-10000-booming"
+    }
+  ],
+  "testCases": [
+    {
+      "testId": "TC001",
+      "summary": "Verify Game Launch on Web Browser",
+      "category": "Web",
+      "steps": ["Open browser", "Navigate to game URL", "Click Play button"],
+      "expectedResult": "Game loads successfully and displays game interface without errors"
+    },
+    {
+      "testId": "TC002",
+      "summary": "Test Game Loading Time",
+      "category": "Web",
+      "steps": ["Open browser", "Navigate to game URL", "Measure load time"],
+      "expectedResult": "Game loads within 10 seconds"
+    },
+    {
+      "testId": "TC003",
+      "summary": "Cross-Browser Compatibility",
+      "category": "Web",
+      "steps": ["Test on Chrome", "Test on Firefox", "Test on Safari", "Test on Edge"],
+      "expectedResult": "Game launches successfully on all browsers"
+    },
+    {
+      "testId": "TC004",
+      "summary": "No Errors During Launch",
+      "category": "Web",
+      "steps": ["Open game", "Monitor console errors", "Check for error popups"],
+      "expectedResult": "No error messages or warnings appear"
+    },
+    {
+      "testId": "TC005",
+      "summary": "Game Launch on Android Device",
+      "category": "Android",
+      "steps": ["Open mobile browser", "Navigate to game", "Launch game"],
+      "expectedResult": "Game loads and displays correctly on Android"
+    },
+    {
+      "testId": "TC006",
+      "summary": "Android Device Compatibility",
+      "category": "Android",
+      "steps": ["Test on multiple Android devices", "Test different screen sizes"],
+      "expectedResult": "Game launches on all Android devices without issues"
+    },
+    {
+      "testId": "TC007",
+      "summary": "Game Launch on iOS Device",
+      "category": "iOS",
+      "steps": ["Open mobile browser", "Navigate to game", "Launch game"],
+      "expectedResult": "Game loads and displays correctly on iOS"
+    },
+    {
+      "testId": "TC008",
+      "summary": "iOS Device Compatibility",
+      "category": "iOS",
+      "steps": ["Test on multiple iOS devices", "Test different screen sizes"],
+      "expectedResult": "Game launches on all iOS devices without issues"
+    },
+    {
+      "testId": "TC009",
+      "summary": "Credits Visibility & Spin Action",
+      "category": "Web",
+      "steps": ["Launch game", "Verify credits visible", "Take screenshot of credits", "Click Spin button", "Take screenshot after spin"],
+      "expectedResult": "Credits/balance visible on screen and spin button works correctly"
+    }
+  ]
+}
