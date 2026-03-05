@@ -70,3 +70,7 @@ debug.log
 # Keep important config files
 !scripts/*.js
 !dashboard/public/js/*.js
+
+# Dolt database files (added by bd init)
+.dolt/
+*.db
